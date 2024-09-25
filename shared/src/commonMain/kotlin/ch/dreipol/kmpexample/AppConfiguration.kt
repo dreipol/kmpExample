@@ -1,6 +1,9 @@
 package ch.dreipol.kmpexample
 
+import ch.dreipol.kmpexample.networking.ServiceFactory
+import ch.dreipol.kmpexample.networking.api.ChatApi
 import ch.dreipol.kmpexample.redux.ApplicationStore
+import ch.dreipol.kmpexample.usecase.ChatUseCase
 
 private lateinit var appConfiguration: AppConfiguration
 
@@ -20,10 +23,12 @@ data class AppConfigurationBuilder(
     private val store: ApplicationStore,
 ) {
     internal fun build(): AppConfiguration = AppConfiguration(
-        store,
+        store = store,
+        chatUseCase = ChatUseCase(ChatApi(serviceFactory = ServiceFactory)),
     )
 }
 
-data class AppConfiguration(
+class AppConfiguration internal constructor(
     val store: ApplicationStore,
+    internal val chatUseCase: ChatUseCase,
 )

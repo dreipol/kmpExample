@@ -5,7 +5,7 @@ import ch.dreipol.kmpexample.redux.actions.NavigationAction
 import ch.dreipol.kmpexample.redux.state.NavigationState
 import org.reduxkotlin.Reducer
 
-val navigationReducer: Reducer<NavigationState> = { state, action ->
+internal val navigationReducer: Reducer<NavigationState> = { state, action ->
     when (action) {
         is NavigationAction.Back -> state.copy(state.pushedScreens.dropLast(1))
         else -> state
