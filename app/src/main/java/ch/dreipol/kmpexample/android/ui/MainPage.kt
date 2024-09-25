@@ -44,7 +44,7 @@ fun MainPage(navHostController: NavHostController, store: ApplicationStore) {
             Screen.ChatScreen::class,
             store = store,
         ) {
-            ChatPage(store)
+            ChatContainer(store)
         }
     }
 }

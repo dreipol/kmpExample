@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
+    id("com.squareup.sqldelight")
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.detekt)
@@ -37,7 +38,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(libs.dreimultiplatform)
-            implementation(libs.coroutines.extensions)
+            implementation(libs.sqldelight.coroutines.extensions)
             implementation(libs.kotlinx.datetime)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.ktor.client.core)
@@ -50,9 +51,11 @@ kotlin {
         }
         androidMain.dependencies {
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.sqldelight.android.driver)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
+            implementation(libs.sqldelight.native.driver)
         }
     }
 }
@@ -76,4 +79,10 @@ detekt {
 
 tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
     exclude("**/generated/**") // but exclude our legacy internal package
+}
+
+sqldelight {
+    database("Database") { // This will be the name of the generated database class.
+        packageName = "ch.dreipol.kmpexample.sqldelight"
+    }
 }

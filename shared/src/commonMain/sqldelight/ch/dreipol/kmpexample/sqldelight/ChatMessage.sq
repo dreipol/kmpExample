@@ -1,0 +1,29 @@
+import kotlinx.datetime.Instant;
+
+CREATE TABLE chatMessage (
+    timestamp INTEGER AS Instant NOT NULL PRIMARY KEY,
+    content TEXT,
+    user TEXT
+);
+
+insertOrUpdate {
+    UPDATE chatMessage SET
+        content = :content,
+        user = :user
+        WHERE timestamp = :timestamp;
+    INSERT OR IGNORE INTO chatMessage
+    (
+        timestamp,
+        content,
+        user
+    )
+    VALUES
+    (
+        :timestamp,
+        :content,
+        :user
+    );
+}
+
+getAll:
+SELECT * FROM chatMessage;

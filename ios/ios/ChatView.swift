@@ -2,15 +2,30 @@ import SwiftUI
 import shared
 
 private enum Redux {
-    static let message = ReduxMapper { state in
+    static let composer = ReduxMapper { state in
         state.viewStates.chatViewState.message
     } action: { dispatch, _, newValue in
         dispatch(ChatAction.SetMessage(newMessage: newValue))
     }
 }
 
+struct ChatContainer: View {
+    @State private var messages = [ChatMessage]()
+
+    var body: some View {
+        ChatPage(messages: messages)
+            .task {
+                for await messages in ChatMessageDataStore().getAll() {
+                    self.messages = messages
+                }
+            }
+    }
+}
+
 struct ChatPage: View {
-    @ReduxState(Redux.message) private var message
+    var messages: [ChatMessage]
+
+    @ReduxState(Redux.composer) private var composer
 
     @Dispatch private var dispatch
 
@@ -18,11 +33,13 @@ struct ChatPage: View {
         NavigationStack {
             VStack {
                 List {
-                    Text("todo")
+                    ForEach(messages, id: \.timestamp) { message in
+                        MessageRow(message: message)
+                    }
                 }
                 .listStyle(.plain)
                 HStack {
-                    TextField("Your Message", text: $message)
+                    TextField("Your Message", text: $composer)
                     Button("Send") {
                         dispatch(ThunksKt.sendMessageThunk())
                     }
@@ -43,6 +60,22 @@ struct ChatPage: View {
 	}
 }
 
+struct MessageRow: View {
+    var message: ChatMessage
+
+    var body: some View {
+        VStack {
+            HStack {
+                Text(message.user ?? "")
+                Spacer()
+            }
+            Text(message.content ?? "")
+                .frame(maxWidth: .infinity, alignment: .trailing)
+                .multilineTextAlignment(.trailing)
+        }
+    }
+}
+
 #Preview {
-    ChatPage()
+    ChatPage(messages: ChatMessagePreviews().list)
 }

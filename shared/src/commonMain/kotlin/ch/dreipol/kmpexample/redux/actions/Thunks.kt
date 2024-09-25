@@ -15,6 +15,7 @@ fun createThunkAction(thunk: Thunk<ApplicationState>): ThunkAction<ApplicationSt
 fun sendMessageThunk(): Thunk<ApplicationState> = { dispatch, getState, _ ->
     val user = getState().userName
     val message = getState().viewStates.chatViewState.message
+    println("Sending $message ($user)")
     dispatch(ChatAction.SendStarted)
     networkAndDbScope.launch {
         val success = getAppConfiguration().chatUseCase.sendMessage(message = message, user = user)

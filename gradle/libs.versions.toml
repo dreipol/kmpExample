@@ -12,13 +12,13 @@ compose-material3 = "1.1.2"
 androidx-activityCompose = "1.8.0"
 accompanistNavigationAnimation = "0.32.0"
 
-#additional packages
+# additional packages
 dreimultiplatform = "1.14.0-b5"
 skie = "0.8.4"
 detektFormatting = "1.23.6"
 coroutinesExtensions = "1.5.5"
 
-#networking
+# networking
 kotlinxDatetime = "0.5.0"
 kotlinxSerializationJson = "1.6.3"
 ktorClientContentNegotiation = "2.3.11"
@@ -27,6 +27,9 @@ ktorClientDarwin = "2.3.11"
 ktorClientLogging = "2.3.11"
 ktorClientOkhttp = "2.3.1"
 ktorSerializationKotlinxJson = "2.3.10"
+
+#db
+sqldelight = "1.5.5"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -38,12 +41,11 @@ compose-foundation = { module = "androidx.compose.foundation:foundation", versio
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
 accompanist-navigation-animation = { module = "com.google.accompanist:accompanist-navigation-animation", version.ref = "accompanistNavigationAnimation" }
 
-#additional packages
+# additional packages
 dreimultiplatform = { module = "ch.dreipol:dreimultiplatform", version.ref = "dreimultiplatform"}
 detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detektFormatting" }
-coroutines-extensions = { module = "com.squareup.sqldelight:coroutines-extensions", version.ref = "coroutinesExtensions" }
 
-#networking
+# networking
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktorClientContentNegotiation" }
@@ -53,6 +55,12 @@ ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "k
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktorClientOkhttp" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktorSerializationKotlinxJson" }
 
+# db
+sqldelight-android-driver = { module = "com.squareup.sqldelight:android-driver", version.ref = "sqldelight" }
+sqldelight-coroutines-extensions = { module = "com.squareup.sqldelight:coroutines-extensions", version.ref = "sqldelight" }
+sqldelight-gradle-plugin = { module = "com.squareup.sqldelight:gradle-plugin", version.ref = "sqldelight" }
+sqldelight-native-driver = { module = "com.squareup.sqldelight:native-driver", version.ref = "sqldelight" }
+
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
@@ -61,9 +69,9 @@ kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref =
 kotlinCocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
-#additional packages
+# additional packages
 skie = { id = "co.touchlab.skie", version.ref = "skie" }
 detekt = {id = "io.gitlab.arturbosch.detekt", version.ref = "detektFormatting"}
 
-#networking
+# networking
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

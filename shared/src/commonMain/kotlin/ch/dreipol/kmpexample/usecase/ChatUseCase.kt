@@ -1,6 +1,15 @@
 package ch.dreipol.kmpexample.usecase
 
+import ch.dreipol.kmpexample.database.ChatMessageDataStore
 import ch.dreipol.kmpexample.networking.api.ChatApi
+import ch.dreipol.kmpexample.networking.dto.MessageDTO
+import ch.dreipol.kmpexample.sqldelight.ChatMessage
+
+private fun MessageDTO.toDb() = ChatMessage(
+    content = content,
+    user = user,
+    timestamp = timestamp,
+)
 
 internal class ChatUseCase(private val api: ChatApi) {
     suspend fun sendMessage(message: String, user: String): Boolean {
@@ -8,8 +17,7 @@ internal class ChatUseCase(private val api: ChatApi) {
             api.sendMessage(message = message, user = user)
         }.getOrNull() ?: return false
 
-        // TODO: save to db
-        println(createdMessage)
+        ChatMessageDataStore.addMessage(createdMessage.toDb())
 
         return true
     }
@@ -19,8 +27,7 @@ internal class ChatUseCase(private val api: ChatApi) {
             api.getMessages()
         }.getOrNull() ?: return false
 
-        // TODO: save to db
-        println(messages)
+        ChatMessageDataStore.addAll(messages.map { it.toDb() })
 
         return true
     }

@@ -15,7 +15,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
         let store = ApplicationStoreKt.createApplicationStore()
-        AppConfigurationKt.doInitApp(builder: AppConfigurationBuilder(store: store))
+        AppConfigurationKt.doInitApp(builder: AppConfigurationBuilder(store: store,
+                                                                      driverFactory: DriverFactory()))
 
         return true
     }

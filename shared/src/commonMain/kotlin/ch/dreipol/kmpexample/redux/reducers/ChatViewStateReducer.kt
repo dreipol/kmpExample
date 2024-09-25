@@ -7,6 +7,7 @@ import org.reduxkotlin.Reducer
 
 internal val chatViewStateReducer: Reducer<ChatViewState> = { state, action ->
     when (action) {
+        is ChatAction.SetMessage -> state.copy(message = action.newMessage)
         ChatAction.FetchFailed -> state.copy(fetchError = true)
         ChatAction.DismissSendFailed -> state.copy(fetchError = false)
         ChatAction.SendStarted -> state.copy(sendStatus = SendStatus.SENDING)
