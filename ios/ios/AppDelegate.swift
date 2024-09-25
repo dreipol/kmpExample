@@ -14,9 +14,11 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
-        let store = ApplicationStoreKt.createApplicationStore()
+        let keyValueStore = UserDefaultsKeyValueStore()
+        let store = ApplicationStoreKt.createApplicationStore(keyValueStore: keyValueStore)
         AppConfigurationKt.doInitApp(builder: AppConfigurationBuilder(store: store,
-                                                                      driverFactory: DriverFactory()))
+                                                                      driverFactory: DriverFactory(),
+                                                                      persistentKeyValueStore: keyValueStore))
 
         return true
     }

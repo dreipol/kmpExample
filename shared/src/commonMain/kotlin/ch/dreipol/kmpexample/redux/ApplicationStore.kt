@@ -1,5 +1,7 @@
 package ch.dreipol.kmpexample.redux
 
+import ch.dreipol.dreimultiplatform.InMemoryKeyValueStore
+import ch.dreipol.dreimultiplatform.PersistentKeyValueStore
 import ch.dreipol.dreimultiplatform.reduxkotlin.actionLoggingMiddleware
 import ch.dreipol.dreimultiplatform.reduxkotlin.convertThunkActionMiddleware
 import ch.dreipol.dreimultiplatform.reduxkotlin.createMainThreadStore
@@ -12,12 +14,12 @@ import org.reduxkotlin.createThunkMiddleware
 
 typealias ApplicationStore = Store<ApplicationState>
 
-fun createPreviewStore(): ApplicationStore = createApplicationStore()
+fun createPreviewStore(): ApplicationStore = createApplicationStore(InMemoryKeyValueStore())
 
-fun createApplicationStore(): ApplicationStore {
+fun createApplicationStore(keyValueStore: PersistentKeyValueStore): ApplicationStore {
     return createMainThreadStore(
         rootReducer,
-        ApplicationState(),
+        ApplicationState(keyValueStore = keyValueStore),
         compose(
             listOf(
                 applyMiddleware(

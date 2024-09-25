@@ -38,13 +38,19 @@ private const val navAnimationDuration = 500
 fun MainPage(navHostController: NavHostController, store: ApplicationStore) {
     AnimatedNavHost(
         navHostController,
-        startDestination = screenName(Screen.ChatScreen::class),
+        startDestination = screenName(Screen.Chat::class),
     ) {
         backHandlingComposable(
-            Screen.ChatScreen::class,
+            Screen.Chat::class,
             store = store,
         ) {
             ChatContainer(store)
+        }
+        backHandlingComposable(
+            Screen.Profile::class,
+            store = store,
+        ) {
+            ProfilePage(store)
         }
     }
 }

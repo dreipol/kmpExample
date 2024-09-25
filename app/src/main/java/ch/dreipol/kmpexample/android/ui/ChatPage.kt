@@ -32,6 +32,7 @@ import ch.dreipol.kmpexample.database.ChatMessageDataStore
 import ch.dreipol.kmpexample.previewData.ChatMessagePreviews
 import ch.dreipol.kmpexample.redux.ApplicationStore
 import ch.dreipol.kmpexample.redux.actions.ChatAction
+import ch.dreipol.kmpexample.redux.actions.NavigationAction
 import ch.dreipol.kmpexample.redux.actions.loadAllThunk
 import ch.dreipol.kmpexample.redux.actions.sendMessageThunk
 import ch.dreipol.kmpexample.redux.createPreviewStore
@@ -47,7 +48,7 @@ fun ChatContainer(store: ApplicationStore) {
 @Composable
 fun ChatPage(store: ApplicationStore, messages: List<ChatMessage>) {
     val reduxComposer by subscribeAsState(store) { it.viewStates.chatViewState.message }
-    var composer by remember { mutableStateOf("") }
+    var composer by remember { mutableStateOf(reduxComposer) }
     LaunchedEffect(composer) {
         if (composer != reduxComposer) {
             store.dispatch(ChatAction.SetMessage(composer))
@@ -68,6 +69,10 @@ fun ChatPage(store: ApplicationStore, messages: List<ChatMessage>) {
                     Text("Chat")
                 },
                 actions = {
+                    Button(
+                        modifier = Modifier.padding(end = 8.dp),
+                        onClick = { store.dispatch(NavigationAction.ToProfile) },
+                    ) { Text("Profile") }
                     Button(
                         onClick = { store.dispatch(loadAllThunk()) },
                     ) { Text("Refresh") }

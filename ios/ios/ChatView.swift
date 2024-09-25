@@ -7,6 +7,8 @@ private enum Redux {
     } action: { dispatch, _, newValue in
         dispatch(ChatAction.SetMessage(newMessage: newValue))
     }
+
+    static let navigateToProfile = NavigationReduxMapper.from(Screen.Chat.self, to: Screen.Profile.self)
 }
 
 struct ChatContainer: View {
@@ -26,6 +28,7 @@ struct ChatPage: View {
     var messages: [ChatMessage]
 
     @ReduxState(Redux.composer) private var composer
+    @ReduxState(Redux.navigateToProfile) private var navigateToProfile
 
     @Dispatch private var dispatch
 
@@ -47,7 +50,12 @@ struct ChatPage: View {
                 .padding()
             }
             .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
+                ToolbarItemGroup(placement: .topBarTrailing) {
+                    Button {
+                        dispatch(NavigationAction.ToProfile())
+                    } label: {
+                        Image(systemName: "person.circle.fill")
+                    }
                     Button {
                         dispatch(ThunksKt.loadAllThunk())
                     } label: {
@@ -56,6 +64,9 @@ struct ChatPage: View {
                 }
             }
             .navigationTitle("Chat")
+            .sheet(isPresented: $navigateToProfile) {
+                ProfilePage()
+            }
         }
 	}
 }

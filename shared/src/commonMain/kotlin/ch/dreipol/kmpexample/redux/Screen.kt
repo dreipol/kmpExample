@@ -6,5 +6,6 @@ fun Screen.screenName(): String = screenName(this::class)
 fun screenName(clazz: KClass<*>): String = clazz.qualifiedName ?: throw IllegalStateException()
 
 sealed class Screen {
-    data object ChatScreen : Screen()
+    data object Chat : Screen()
+    data object Profile : Screen()
 }

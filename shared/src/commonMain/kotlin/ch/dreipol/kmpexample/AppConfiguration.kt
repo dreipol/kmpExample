@@ -1,5 +1,6 @@
 package ch.dreipol.kmpexample
 
+import ch.dreipol.dreimultiplatform.PersistentKeyValueStore
 import ch.dreipol.kmpexample.database.DriverFactory
 import ch.dreipol.kmpexample.networking.ServiceFactory
 import ch.dreipol.kmpexample.networking.api.ChatApi
@@ -24,11 +25,13 @@ fun getAppConfiguration(): AppConfiguration {
 data class AppConfigurationBuilder(
     private val store: ApplicationStore,
     val driverFactory: DriverFactory,
+    val persistentKeyValueStore: PersistentKeyValueStore,
 ) {
     internal fun build(): AppConfiguration = AppConfiguration(
         store = store,
         driver = driverFactory.createDriver(),
         chatUseCase = ChatUseCase(ChatApi(serviceFactory = ServiceFactory)),
+        persistentKeyValueStore = persistentKeyValueStore,
     )
 }
 
@@ -36,6 +39,7 @@ class AppConfiguration internal constructor(
     val store: ApplicationStore,
     val driver: SqlDriver,
     internal val chatUseCase: ChatUseCase,
+    val persistentKeyValueStore: PersistentKeyValueStore,
 ) {
     companion object {
         const val databaseFileName = "app.db"

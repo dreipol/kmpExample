@@ -7,7 +7,8 @@ import org.reduxkotlin.Reducer
 
 internal val navigationReducer: Reducer<NavigationState> = { state, action ->
     when (action) {
-        is NavigationAction.Back -> state.copy(state.pushedScreens.dropLast(1))
+        NavigationAction.Back -> state.copy(state.pushedScreens.dropLast(1))
+        NavigationAction.ToProfile -> state.push(Screen.Profile)
         else -> state
     }
 }
