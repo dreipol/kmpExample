@@ -14,6 +14,10 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
+        UnhandledExceptionsKt.registerForKotlinExceptions { throwable, stackTrace in
+            print(stackTrace)
+        }
+
         let keyValueStore = UserDefaultsKeyValueStore()
         let store = ApplicationStoreKt.createApplicationStore(keyValueStore: keyValueStore)
         AppConfigurationKt.doInitApp(builder: AppConfigurationBuilder(store: store,
