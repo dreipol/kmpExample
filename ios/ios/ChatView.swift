@@ -9,6 +9,10 @@ private enum Redux {
     }
 
     static let navigateToProfile = NavigationReduxMapper.from(Screen.Chat.self, to: Screen.Profile.self)
+
+    static let sendEnabled = ReduxStateGetter { state in
+        state.viewStates.chatViewState.sendEnabled
+    }
 }
 
 struct ChatContainer: View {
@@ -29,6 +33,7 @@ struct ChatPage: View {
 
     @ReduxState(Redux.composer) private var composer
     @ReduxState(Redux.navigateToProfile) private var navigateToProfile
+    @GetReduxState(Redux.sendEnabled) private var sendEnabled
 
     @Dispatch private var dispatch
 
@@ -46,6 +51,7 @@ struct ChatPage: View {
                     Button("Send") {
                         dispatch(ThunksKt.sendMessageThunk())
                     }
+                    .disabled(!sendEnabled)
                 }
                 .padding()
             }
